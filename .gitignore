@@ -1,0 +1,9 @@
+/node_modules
+/vendor
+.env
+.phpunit.result.cache
+storage/framework/cache/*
+storage/framework/views/*
+storage/logs/*
+public/build
+
