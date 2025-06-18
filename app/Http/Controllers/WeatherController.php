@@ -11,7 +11,20 @@ class WeatherController extends Controller
     public function show(Request $request, WeatherService $weatherService)
 {
     $city = $request->input('city');
-    
+     try {
+        $weather = $city ? $weatherService->getWeather($city) : null;
+    } catch (\Exception $e) {
+        // Mode dégradé
+        $weather = Cache::store('redis')->get("weather_{$city}_".date('Y-m-d_H'));
+        
+        if (!$weather && $request->wantsJson()) {
+            return response()->json([
+                'error' => 'offline',
+                'message' => 'Mode hors ligne activé'
+            ]);
+        }
+    }
+
     // Force JSON response for AJAX requests
     if ($request->ajax() || $request->has('_ajax')) {
         try {

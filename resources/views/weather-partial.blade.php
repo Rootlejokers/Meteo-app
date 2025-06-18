@@ -1,3 +1,8 @@
+@if(isset($weather['cached_at']))
+<div class="text-xs text-gray-400 mt-2">
+    Données actualisées à {{ \Carbon\Carbon::parse($weather['cached_at'])->diffForHumans() }}
+</div>
+@endif
 @if(isset($weather['main']))
 <div class="space-y-4">
     <!-- En-tête -->
@@ -58,5 +63,12 @@
 @else
 <div class="bg-yellow-50 text-yellow-700 p-4 rounded-lg">
     <p>⚠️ Données météo incomplètes</p>
+</div>
+@endif
+
+@if(isset($weather['cached_at']))
+<div class="mt-3 text-xs text-gray-500 border-t pt-2">
+    <p>🔄 Actualisé : {{ \Carbon\Carbon::parse($weather['cached_at'])->diffForHumans() }}</p>
+    <p>⏱ Expire à : {{ \Carbon\Carbon::parse($weather['expires_at'])->format('H:i') }}</p>
 </div>
 @endif
