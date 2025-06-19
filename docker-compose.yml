@@ -26,8 +26,8 @@ services:
       - db_data:/var/lib/mysql
 
   redis:
-    image: redis:alpine
-    container_name: jokers-weather-redis
+    image: redis:7-alpine
+    command: redis-server --save "" --appendonly no --maxmemory 128mb --maxmemory-policy allkeys-lru
     ports:
       - "6379:6379"
 

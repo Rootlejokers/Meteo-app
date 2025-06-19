@@ -40,7 +40,7 @@
                 <input
                     type="text"
                     name="city"
-                    placeholder="Paris, Tokyo..."
+                    placeholder="Yaounde, Dakar, Libreville..."
                     class="flex-1 px-4 py-3 rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                 >

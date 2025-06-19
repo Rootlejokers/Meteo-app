@@ -1,8 +1,4 @@
-@if(isset($weather['cached_at']))
-<div class="text-xs text-gray-400 mt-2">
-    Données actualisées à {{ \Carbon\Carbon::parse($weather['cached_at'])->diffForHumans() }}
-</div>
-@endif
+
 @if(isset($weather['main']))
 <div class="space-y-4">
     <!-- En-tête -->
@@ -66,9 +62,30 @@
 </div>
 @endif
 
-@if(isset($weather['cached_at']))
-<div class="mt-3 text-xs text-gray-500 border-t pt-2">
-    <p>🔄 Actualisé : {{ \Carbon\Carbon::parse($weather['cached_at'])->diffForHumans() }}</p>
-    <p>⏱ Expire à : {{ \Carbon\Carbon::parse($weather['expires_at'])->format('H:i') }}</p>
+@if(isset($weather['cache_metadata']))
+<div class="text-xs text-gray-500 mt-2 space-y-1">
+    <p class="flex items-center">
+        <span class="mr-1">🕒</span>
+        Affichage : {{ $weather['cache_metadata']['local_display_time'] }} (Heure Cameroun)
+    </p>
+    
+    <p class="flex items-center">
+        <span class="mr-1">🔄</span>
+        Actualisé : {{ \Carbon\Carbon::createFromTimestamp($weather['cache_metadata']['cached_at_unix'])->diffForHumans() }}
+    </p>
+    
+    <p class="flex items-center">
+        <span class="mr-1">⏱</span>
+        Expire dans : 
+        @php
+            $remaining = $weather['cache_metadata']['expires_at_unix'] - time();
+            echo sprintf(
+                '%02dh %02dm %02ds', 
+                ($remaining / 3600), 
+                ($remaining / 60 % 60), 
+                $remaining % 60
+            );
+        @endphp
+    </p>
 </div>
 @endif
